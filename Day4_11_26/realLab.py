@@ -18,11 +18,13 @@ for key in student:
             student[key]["score"][i] *= 1.1
         student[key]["score"][1] /= 1.1
     elif student[key]["main"] == "수학":
-        student[key]["score"][2] *= 1.1
-        student[key]["score"][0] /= 1.1
+        for i in range(4):
+            student[key]["score"][i] *= 1.1
+        student[key]["score"][2] /= 1.1
     elif student[key]["main"] == "컴퓨터":
-        student[key]["score"][3] *= 1.1
-        student[key]["score"][0] /= 1.1
+        for i in range(4):
+            student[key]["score"][i] *= 1.1
+        student[key]["score"][3] /= 1.1
 
     total_scores[key] = sum(student[key]["score"])
 
