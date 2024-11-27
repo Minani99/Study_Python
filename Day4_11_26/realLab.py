@@ -8,6 +8,8 @@ student = {
 
 total_scores = {}
 
+print(student)
+
 #가산점 넣기
 for key in student:
     if student[key]["main"] == "국어":
@@ -36,6 +38,8 @@ person = int(input("장학금 지급 인원 설정 >> "))
 #정렬을 위해 딕셔너리를 리스트형태로 변환
 students = list(total_scores.items())
 
+print(student)
+
 #튜플로 위치 바꿈 (정렬함수 쓰려고)
 sortScore = []
 for name, score in total_scores.items():
@@ -56,3 +60,11 @@ print(f"총 장학금 {scholarship}원, {person}명에게 지급")
 for i in range(person):
     student_name = sortScore[i][1]
     print(f"{student_name} 학생은 {amounts[i]:.2f}원 받음")
+
+
+# subject = ["국어", "영어", "수학", "컴퓨터"]
+#
+# def inputScore():
+#     for i in student:
+#         for j in subject:
+#             student[i]["score"].append(int(input(f"{i}학생의 {j}점수를 입력하세요:")))
