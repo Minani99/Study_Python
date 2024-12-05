@@ -1,29 +1,33 @@
 def add(x, y):
     return x + y
 
+
 def sub(x, y):
     return x - y
 
+
 def mul(x, y):
     return x * y
+
 
 def div(x, y):
     if y == 0:
         return "0은 좀.."
     return x / y
 
+
 n_sum = 0
 last_input = ""
 print("계산기를 시작합니다. 종료하려면 'exit'를 입력하세요.")
 
 while True:
-    user = input(f"{n_sum} >> ")
+    user = input(f"{n_sum} >> ")  # 유저 인풋
 
-    if user.isdigit():
-        if last_input in ['+', '-', '*', '/']:
-            number = int(user)
+    if user.isdigit():  # 숫자인지 확인
+        if last_input in ['+', '-', '*', '/']:  # 마지막에 연산자를 입력했다면
+            number = int(user)  # 받은 문자를 정수로 바꿔주고
             if last_input == '+':
-                n_sum = add(n_sum, number)
+                n_sum = add(n_sum, number)  # sum값에다 더해줌
             elif last_input == '-':
                 n_sum = sub(n_sum, number)
             elif last_input == '*':
@@ -36,10 +40,10 @@ while True:
             print(f">> {n_sum}")
         else:
             n_sum = int(user)
-        last_input = ""
+        last_input = ""  # 마지막 입력문자 초기화
 
-    elif user in ['+', '-', '*', '/']:
-        last_input = user
+    elif user in ['+', '-', '*', '/']:  # 연산자를 입력했다면
+        last_input = user  # 라스트 인풋에 추가
 
     elif user == 'exit':  # 종료
         print("계산기를 종료합니다.")
