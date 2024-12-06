@@ -84,11 +84,18 @@ change_set = {}
 # 시간대에 맞는 카테고리 반환
 def get_available_categories(hour1, minute1):
     if (4, 0) <= (hour1, minute1) < (10, 30):
-        return ["맥모닝", "사이드", "디저트", "맥카페", "음료"]  # 아침 시간
+        return ["맥모닝", "버거", "사이드", "디저트", "맥카페", "음료"]  # 아침 시간
     elif (10, 30) <= (hour1, minute1) < (14, 0):
         return ["맥런치", "버거", "사이드", "디저트", "맥카페", "음료", "해피밀"]  # 점심 시간
     else:
         return ["버거", "사이드", "디저트", "맥카페", "음료", "해피밀"]  # 저녁 시간
+
+
+def happy_meal(hour1, minute1):
+    if (4, 0) <= (hour1, minute1) < (10, 30):
+        return
+    else:
+        return
 
 
 # 카테고리 출력
@@ -217,6 +224,7 @@ def pay(payment1):
     else:
         print("잘못입력하셨습니다.")
 
+
 # __name__() __main__ 아래에서 부터 메인
 
 
@@ -270,7 +278,7 @@ while True:  # 무한 반복 (주문을 계속 받기 위한 루프)
                         print("1에서 5사이를 입력해주세요")
                     while key_while[3]:
                         payment = input("추가주문(1) 주문완료(2): ")
-                        pay(payment) # 결제 함수 호출
+                        pay(payment)  # 결제 함수 호출
                         key_while = [0, 0, 0, 0, 0]  # 종료
                 else:
                     pass
