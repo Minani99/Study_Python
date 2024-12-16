@@ -1,3 +1,4 @@
 try / except 규칙
 try는 단독 사용 불가 반드시 except나 finally중 하나는 이썽야함
 else는 반드시 except 뒤에 위치
+

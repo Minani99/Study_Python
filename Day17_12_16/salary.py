@@ -1,18 +1,18 @@
 import random as rm
 
 # 이름 리스트
-name_list = ["사람" + str(i + 1) for i in range(10)]
+name_list = ["클로이모레츠", "냥뇽녕냥", "짐캐리", "김채원", "김지우", "코난", "아리아나그란데", "엠마왓슨", "김민정", "유지민"]
+no_one = lambda x: int(x) // 10 * 10
 
 
 def salary(file_path="salary_file.txt", encoding="utf-8"):
     try:
         with open(file_path, "r", encoding=encoding) as f:
-            # 2차원 배열로 변환
             data = []
             for line in f:
                 row = line.strip().replace('-', '0').split("\t")
-                row = [int(value.replace(",", "")) for value in row]  # 모든 값을 정수로 변환
-                data.append(row)  # 2차원 배열에 추가
+                row = [int(value.replace(",", "")) for value in row]
+                data.append(row)
             return data
     except FileNotFoundError:
         print(f"파일 '{file_path}'이(가) 존재하지 않습니다.")
@@ -22,55 +22,55 @@ def salary(file_path="salary_file.txt", encoding="utf-8"):
         return []
 
 
-def calculate_taxes(before, **kwargs):
+def calculate_taxes(data, before, **kwargs):
     np = before * 0.045  # 국민연금
     hi = before * 0.033  # 건강보험
     lci = hi * 0.1  # 요양보험
     ei = before * 0.008  # 고용보험
 
-    # 소득세 / 아직 부양가족 고려안함
-    if before < 1060000:  # 이사람들은 소득세 x
-        income_tax = 0
-    elif before < 5000000:
-        income_tax = before * 0.06
-    else:
-        income_tax = before * 0.15
+    person = {
+        "이름": kwargs.get("이름", ""),
+        "나이": kwargs.get("나이", 0),
+        "부양가족": kwargs.get("부양가족", 0),
+        "월급": no_one(before),
+        "국민연금": no_one(int(np)),
+        "건강보험": no_one(int(hi)),
+        "요양보험": no_one(int(lci)),
+        "고용보험": no_one(int(ei)),
+        "소득세": 0,
+        "지방소득세": 0,
+        "실수령액": 0
+    }
 
-    li = income_tax * 0.1  # 지방소득세
+    income_tax = 0  # 소득세
+    li = 0  # 지방소득세
+    for row in data:
+        try:
+            s1 = row[0] * 10000
+            s2 = row[1] * 10000
+            t = row[2:]
+
+            if s1 < before <= s2:
+                income_tax = t[person["부양가족"]]
+                li = income_tax * 0.1
+                break
+
+        except Exception as e:
+            print(f"소득세 계산 중 에러: {e}")
 
     total_taxes = np + hi + lci + ei + income_tax + li
     net_salary = before - total_taxes  # 실수령액
 
-    person = {
-        "name": "",
-        "age": 0,
-        "dependent": 0,
-        "월급" : before,
-        "국민연금": int(np),
-        "건강보험": int(hi),
-        "요양보험": int(lci),
-        "고용보험": int(ei),
-        "소득세": int(income_tax),
-        "지방소득세": int(li),
-        "실수령액": int(net_salary)
-    }
+    person["소득세"] = no_one(int(income_tax))
+    person["지방소득세"] = no_one(int(li))
+    person["실수령액"] = no_one(int(net_salary))
 
-    for key, value in kwargs.items():
-        if key == "name":
-            person["name"] = value
-        elif key == "age":
-            person["age"] = int(value)
-        elif key == "dependent":
-            person["dependent"] = int(value)
-        else:
-            print("잘못된 입력")
-            continue
-
-    for i, j in person.items():
-        print(i, ":", j)
+    print("[세금 계산 결과]")
+    for key, value in person.items():
+        print(f"{key}: {value}")
+    print("-" * 50)
 
 
-# 이상치 탐지 함수
 def detect_error(data):
     error = []
     prev_taxes = None
@@ -85,14 +85,14 @@ def detect_error(data):
             for j in range(1, len(taxes)):
                 if taxes[j] > taxes[j - 1]:
                     error.append(
-                        f"{index + 1}번 줄 (연봉:{salary1}), 부양가족 {j} -> {j + 1} 세금 증가 ({taxes[j - 1]} -> {taxes[j]})"
+                        f"{index + 1}번 줄 (연봉: {salary1}), 부양가족 {j} -> {j + 1} 세금 증가 ({taxes[j - 1]} -> {taxes[j]})"
                     )
 
             if salary1 < 1060:
                 for j in range(len(taxes)):
                     if taxes[j] != 0:
                         error.append(
-                            f"{index + 1}번째 줄 (연봉:{salary1}) 부양가족이 없는데 세금이 있음 (세금: {taxes[j]})"
+                            f"{index + 1}번째 줄 (연봉: {salary1}) 부양가족이 없는데 세금이 있음 (세금: {taxes[j]})"
                         )
             elif 1060 < salary1 < 5000:
                 if prev_taxes is not None:
@@ -120,7 +120,11 @@ def detect_error(data):
     return error
 
 
-file_path = "../Day17_12_16/salary_file.txt"
+# ------ㅡmain------------
+
+
+# 파일 로드 및 실행
+file_path = "salary_file.txt"
 data = salary(file_path)
 
 if data:
@@ -133,5 +137,16 @@ if data:
             print(err)
     else:
         print("이상치가 발견되지 않았습니다.")
-print("-"*50)
-calculate_taxes(1000000, name="징징이", age=20, dependent=1)
+print("-" * 50)
+
+# 무작위 이름과 세금 계산
+p_name = rm.sample(name_list, 10)
+
+for i in range(len(name_list)):
+    calculate_taxes(
+        data,
+        before=rm.randrange(7700000, 99000000),
+        이름=p_name[i],
+        나이=rm.randrange(20, 40),
+        부양가족=rm.randrange(0, len(data[0]) - 2)
+    )
