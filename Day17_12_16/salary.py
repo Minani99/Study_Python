@@ -65,10 +65,7 @@ def calculate_taxes(data, before, **kwargs):
     person["지방소득세"] = no_one(int(li))
     person["실수령액"] = no_one(int(net_salary))
 
-    print("[세금 계산 결과]")
-    for key, value in person.items():
-        print(f"{key}: {value}")
-    print("-" * 50)
+    return person
 
 
 def detect_error(data):
@@ -142,11 +139,21 @@ print("-" * 50)
 # 무작위 이름과 세금 계산
 p_name = rm.sample(name_list, 10)
 
+list_sort = []
+
 for i in range(len(name_list)):
-    calculate_taxes(
+    list_sort.append(calculate_taxes(
         data,
         before=rm.randrange(7700000, 99000000),
         이름=p_name[i],
         나이=rm.randrange(20, 40),
-        부양가족=rm.randrange(0, len(data[0]) - 2)
+        부양가족=rm.randrange(0, len(data[0]) - 2))
     )
+
+list_sort.sort(key=lambda x: x["실수령액"], reverse=True)
+
+for person in list_sort:
+    print("[세금 계산 결과]")
+    for key, value in person.items():
+        print(f"{key}: {value}")
+    print("-" * 50)
