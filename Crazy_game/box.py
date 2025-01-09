@@ -1,52 +1,7 @@
 import random as rm
 import pandas as pd
 
-
-class Item:
-    # 아이템 종류 딕셔너리
-    ITEM_TYPES = {
-        "plus_bomb": {"name": "폭탄 소지+", "effects": {"b_count": 1}},
-        "plus_scope": {"name": "폭발 범위+", "effects": {"b_range": 1}},
-        "skate": {"name": "스케이트", "effects": {"speed": 1}},
-        "devil": {"name": "악마", "effects": {"reverse": 5}},
-        "kick": {"name": "킥", "effects": {"kick": True}},
-    }
-
-    # 생성자 (좌표값, 아이템 이름, life)
-    def __init__(self, item_type="nothing", life=True):
-        if item_type not in self.ITEM_TYPES:
-            raise ValueError(f"'{item_type}'은(는) 유효하지 않은 아이템 태입입니다.")
-        self.item_type = item_type
-        self.name = self.ITEM_TYPES[item_type]["name"]
-        self.effects = self.ITEM_TYPES[item_type]["effects"]
-        self.life = life
-
-    # 디버깅용 str
-    def __str__(self):
-        return f"Item(name={self.name}, effects={self.effects})"
-
-    # 아이템 명띄울려면 이케해야함
-    def __repr__(self):
-        return self.__str__()
-
-    # 아이템 이름을 받으면 효과를 반환해주는 메소드
-    @classmethod
-    def return_effect(cls, item_names):
-        # 배열인지 확인
-        if isinstance(item_names, str):
-            item_names = [item_names]
-        # 배열 형태가 아니라면 에러 반환
-        if not isinstance(item_names, list):
-            raise TypeError("아이템 이름은 문자열 또는 리스트여야 합니다.")
-
-        # 반환할 효과들
-        r_effects = []
-        for name in item_names:
-            if name in cls.ITEM_TYPES:
-                r_effects.append(cls.ITEM_TYPES[name]["effects"])
-            else:
-                raise ValueError(f"'{name}'은(는) 유효하지 않은 아이템 이름입니다.")
-        return r_effects
+from item import Item
 
 
 class Box:
@@ -109,6 +64,8 @@ class Box:
 
     @classmethod
     def init(cls, box_set):
+        cls.boxes = []
+
         for config in box_set:
             if not isinstance(config, int):
                 raise ValueError("box_config의 각 항목은 정수여야 합니다.")
@@ -140,7 +97,8 @@ class Box:
 
         # 드롭 확률 계산
         if Box.stats["total_destroyed_boxes"] > 0:
-            Box.stats["drop_probability"] = int((Box.stats["total_dropped_items"] / Box.stats["total_destroyed_boxes"]) * 100)
+            Box.stats["drop_probability"] = round(
+                (Box.stats["total_dropped_items"] / Box.stats["total_destroyed_boxes"]) * 100, 2)
 
         # 게임 종료 처리
         game_over = kwargs.get("game_over", False)
@@ -167,31 +125,4 @@ class Box:
         }])
         df.to_csv("game_stats.csv", index=False)
 
-        if final_stats["item_counts"]:
-            item_counts_list = []
-            for key, value in final_stats["item_counts"].items():
-                item_counts_list.append(f"{key}: {value}")
-            item_counts_str = "\n".join(item_counts_list)
-        else:
-            item_counts_str = "없음"
-
-        formatted_stats = f"""
-파괴된 총 박스 수: {final_stats['total_destroyed_boxes']}
-드롭된 총 아이템 수: {final_stats['total_dropped_items']}
-드롭된 아이템 목록:
-{item_counts_str}
-아이템 드롭 확률: {final_stats['drop_probability']}"""
-
-        return formatted_stats
-
-
-Box.init([1, 2, 3, 7, 1, 1])  # 박스 초기화
-
-# 틱 1
-print(Box.box_tick(damage_flags=[True, True, True, True, True, True]))
-
-# 틱 2
-print(Box.box_tick(damage_flags=[True, True, True, True, True, True]))
-
-# 게임 종료
-print(Box.box_tick(damage_flags=[True, True, True, True, True, True], game_over=True))
+        return final_stats

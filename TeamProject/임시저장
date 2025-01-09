@@ -1,0 +1,41 @@
+    @classmethod
+    def box_tick(cls, **kwargs):
+        damage_flags = kwargs.get("damage_flags", [])
+        if len(damage_flags) != len(cls.boxes):
+            raise ValueError("damage_flags 리스트의 길이는 생성된 박스의 수와 같아야 합니다.")
+
+        box_list = []
+        destroyed_box_index = []  # 부서진 박스 인덱스를 저장할 리스트
+        dropped_items = 0
+        destroyed_boxes = 0
+
+        for idx, (i_box, damaged) in enumerate(zip(cls.boxes, damage_flags)):
+            if damaged:
+                destroyed = i_box.damaged_by_bomb()
+                if destroyed:
+                    destroyed_boxes += 1
+                    destroyed_box_index.append(idx)  # 박스의 번호를 1부터 시작하도록 저장
+                    if i_box.drop_item():
+                        dropped_items += 1
+
+            box_dict = {
+                "remaining_hp": i_box.hp,
+                "item": i_box.drop_item() if i_box.hp == 0 else None,
+            }
+            box_list.append(box_dict)
+
+        # 결과 통계 저장
+        cls.tick += 1
+        cls.drop_count.append({
+            "tick": cls.tick,
+            "dropped_items": dropped_items,
+            "destroyed_boxes": destroyed_boxes,
+            "destroyed_box_indices": destroyed_box_index  # 부서진 박스의 인덱스 저장
+        })
+
+        # 게임 종료 처리
+        game_over = kwargs.get("game_over", False)
+        if game_over:
+            cls.save_stats_to_csv()
+
+        return box_list
