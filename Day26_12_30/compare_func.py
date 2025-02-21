@@ -1,11 +1,11 @@
 # class S:
-#     def __init__(self, name, math, eng):
-#         self.name = name
-#         self.math = math
-#         self.eng = eng
+#     def __init__(root, name, math, eng):
+#         root.name = name
+#         root.math = math
+#         root.eng = eng
 #
-#     def __eq__(self, other):
-#         return self.eng != other.eng
+#     def __eq__(root, other):
+#         return root.eng != other.eng
 #
 #
 # a = S(name="1번", math=50, eng=50)
@@ -16,46 +16,46 @@
 class Student:
     count = 0
 
-    def __init__(self, name, k, m, e, s):
-        self.name = name
-        self.k = k
-        self.m = m
-        self.e = e
-        self.s = s
+    def __init__(root, name, k, m, e, s):
+        root.name = name
+        root.k = k
+        root.m = m
+        root.e = e
+        root.s = s
         Student.count+=1
         print(f"{Student.count}번째 학생 생성")
 
-    def get_sum(self):
-        return self.k + self.m + self.e + self.s
+    def get_sum(root):
+        return root.k + root.m + root.e + root.s
 
-    def get_ave(self):
-        return self.get_sum() / 4
+    def get_ave(root):
+        return root.get_sum() / 4
 
-    def __str__(self):
+    def __str__(root):
         return "{}{}{}".format(
-            self.name,
-            self.get_sum(),
-            self.get_ave()
+            root.name,
+            root.get_sum(),
+            root.get_ave()
         )
 
-    def __eq__(self, value):
-        return self.get_sum() == value.get_sum()
+    def __eq__(root, value):
+        return root.get_sum() == value.get_sum()
 
-    def __ne__(self, other):
-        return self.get_sum() != other.get_sum()
+    def __ne__(root, other):
+        return root.get_sum() != other.get_sum()
 
-    def __gt__(self, other):
+    def __gt__(root, other):
         return "호엥"
-        # return self.get_sum() > other.get_sum()
+        # return root.get_sum() > other.get_sum()
 
-    def __ge__(self, other):
-        return self.get_sum() >= other.get_sum()
+    def __ge__(root, other):
+        return root.get_sum() >= other.get_sum()
 
-    def __lt__(self, other):
-        return self.get_sum() < other.get_sum()
+    def __lt__(root, other):
+        return root.get_sum() < other.get_sum()
 
-    def __le__(self, other):
-        return self.get_sum() <= other.get_sum()
+    def __le__(root, other):
+        return root.get_sum() <= other.get_sum()
 
 
 

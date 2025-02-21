@@ -1,14 +1,14 @@
 # class Human:
-#     def __init__(self):
-#         self.name = "human"
+#     def __init__(root):
+#         root.name = "human"
 #
-#     def h_test(self):
+#     def h_test(root):
 #         pass
 #
 #
 # class Student(Human):
-#     def __init__(self):
-#         self.age = 16
+#     def __init__(root):
+#         root.age = 16
 #         pass
 #
 #
@@ -26,12 +26,12 @@
 # print(type(student) == Human)
 
 class Student:
-    def study(self):
+    def study(root):
         print("공부공부")
 
 
 class Teacher:
-    def teach(self):
+    def teach(root):
         print("코치코치")
 
 

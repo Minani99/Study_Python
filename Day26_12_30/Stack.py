@@ -1,12 +1,12 @@
 class Stack:
-    def __init__(self):
-        self.list = []
+    def __init__(root):
+        root.list = []
 
-    def push(self, item):
-        self.list.append(item)
+    def push(root, item):
+        root.list.append(item)
 
-    def pop(self):
-        return self.list.pop()
+    def pop(root):
+        return root.list.pop()
 
 
 stack = Stack()

@@ -12,21 +12,21 @@ class Item:
     }
 
     # 생성자 (좌표값, 아이템 이름, life)
-    def __init__(self, item_type="nothing", life=True):
-        if item_type not in self.ITEM_TYPES:
+    def __init__(root, item_type="nothing", life=True):
+        if item_type not in root.ITEM_TYPES:
             raise ValueError(f"'{item_type}'은(는) 유효하지 않은 아이템 태입입니다.")
-        self.item_type = item_type
-        self.name = self.ITEM_TYPES[item_type]["name"]
-        self.effects = self.ITEM_TYPES[item_type]["effects"]
-        self.life = life
+        root.item_type = item_type
+        root.name = root.ITEM_TYPES[item_type]["name"]
+        root.effects = root.ITEM_TYPES[item_type]["effects"]
+        root.life = life
 
     # 디버깅용 str
-    def __str__(self):
-        return f"Item(name={self.name}, effects={self.effects})"
+    def __str__(root):
+        return f"Item(name={root.name}, effects={root.effects})"
 
     # 아이템 명띄울려면 이케해야함
-    def __repr__(self):
-        return self.__str__()
+    def __repr__(root):
+        return root.__str__()
 
     # 아이템 이름을 받으면 효과를 반환해주는 메소드
     @classmethod

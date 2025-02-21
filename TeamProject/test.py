@@ -1,13 +1,13 @@
 # class stu:
-#     def __init__(self):
-#         self.name='박민환'
-#     def answer(self,q):
+#     def __init__(root):
+#         root.name='박민환'
+#     def answer(root,q):
 #         print("네, 이해됐습니다.")
 #
 #
 #
 # class jun(stu):
-#     def answer(self,q):
+#     def answer(root,q):
 #         print("질문은: ",q)
 #         print("전 이해가 안됩니다.")
 #

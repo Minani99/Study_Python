@@ -1,25 +1,25 @@
 class Pos:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(root, x, y):
+        root.x = x
+        root.y = y
 
-    def __eq__(self, other):
-        return self.x == other.x and self.y == other.y
+    def __eq__(root, other):
+        return root.x == other.x and root.y == other.y
 
-    def __hash__(self):
-        return hash((self.x, self.y))
+    def __hash__(root):
+        return hash((root.x, root.y))
 
-    def __str__(self):
-        return f"({self.x}, {self.y})"
+    def __str__(root):
+        return f"({root.x}, {root.y})"
 
-    def __repr__(self):
-        return self.__str__()
+    def __repr__(root):
+        return root.__str__()
 
-    def __add__(self, other):
-        return Pos(self.x + other.x, self.y + other.y)
+    def __add__(root, other):
+        return Pos(root.x + other.x, root.y + other.y)
 
-    def to_list(self):
-        return [self.x, self.y]
+    def to_list(root):
+        return [root.x, root.y]
 
     @staticmethod
     def from_list(l):

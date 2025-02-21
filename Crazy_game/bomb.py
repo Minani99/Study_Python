@@ -8,13 +8,13 @@
 BOMB_TIMER = 2
 
 class _Bomb:
-    def __init__(self, owner="player", power=1):
-        self.owner = owner
-        self.power = power
-        self.timer = BOMB_TIMER
+    def __init__(root, owner="player", power=1):
+        root.owner = owner
+        root.power = power
+        root.timer = BOMB_TIMER
 
-    def tick(self):
-        self.timer -= 1
+    def tick(root):
+        root.timer -= 1
 
 class Bomb:
     current_tick = 0

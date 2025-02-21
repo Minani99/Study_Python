@@ -5,48 +5,48 @@ from item import Item
 
 
 class Boss:
-   def __init__(self, name, hp, phase, size, coord):
-       self.name = name
-       self.hp = hp
-       self.phase = phase
-       self.size = size
-       self.coord = coord
+   def __init__(root, name, hp, phase, size, coord):
+       root.name = name
+       root.hp = hp
+       root.phase = phase
+       root.size = size
+       root.coord = coord
 
 
    # 보스의 체력 리턴
-   def get_monster_hp(self):
-       return self.hp
+   def get_monster_hp(root):
+       return root.hp
 
 
    # 보스의 페이즈 설정
-   def set_phase(self, v_phase):
-       self.phase = v_phase
+   def set_phase(root, v_phase):
+       root.phase = v_phase
 
 
    # 보스 체력 감소
-   def reduce_hp(self, damage):
-       self.hp -= damage
-       if self.hp < 0:
-           self.hp = 0
-       self.update_phase()
-       return self.hp
+   def reduce_hp(root, damage):
+       root.hp -= damage
+       if root.hp < 0:
+           root.hp = 0
+       root.update_phase()
+       return root.hp
 
 
 
 
    # 보스의 페이즈 업데이트
-   def update_phase(self):
-       if self.hp > 7:
-           self.phase = 1
-       elif 4 <= self.hp <= 7:
-           self.phase = 2
-       elif self.hp > 0:
-           self.phase = 3
+   def update_phase(root):
+       if root.hp > 7:
+           root.phase = 1
+       elif 4 <= root.hp <= 7:
+           root.phase = 2
+       elif root.hp > 0:
+           root.phase = 3
        else:
-           self.phase = 0  # 사망
+           root.phase = 0  # 사망
 
    # 물풍선 공격 패턴 생성
-   def make_atk(self, coord, phase):
+   def make_atk(root, coord, phase):
        X, Y = coord[0] - 3, coord[1] - 3
        water_coord = []
        plus_range = 7
@@ -75,36 +75,36 @@ class Boss:
 
 
    # 보스 공격 이벤트
-   def event_boss_atk(self, tick, coord):
+   def event_boss_atk(root, tick, coord):
        if (
-           (self.phase == 1 and tick % 10 == 0)
-           or (self.phase == 2 and tick % 10 == 0)
-           or (self.phase == 3 and tick % 10 == 0)
+           (root.phase == 1 and tick % 10 == 0)
+           or (root.phase == 2 and tick % 10 == 0)
+           or (root.phase == 3 and tick % 10 == 0)
        ):
-           return self.make_atk(coord, self.phase)
+           return root.make_atk(coord, root.phase)
        return []
 
 
 class Minion:
-   def __init__(self, name, hp, size, coord):
-       self.name = name
-       self.hp = hp  # 미니언 체력 초기화
-       self.size = size
-       self.coord = coord
+   def __init__(root, name, hp, size, coord):
+       root.name = name
+       root.hp = hp  # 미니언 체력 초기화
+       root.size = size
+       root.coord = coord
 
 
    # 미니언의 체력 리턴
-   def get_minion_hp(self):
-       return self.hp
+   def get_minion_hp(root):
+       return root.hp
 
 
    # # 미니언의 체력 설정
-   # def set_minion_hp(self, v_hp):
-   #     self.hp = v_hp
+   # def set_minion_hp(root, v_hp):
+   #     root.hp = v_hp
 
 
    # 미니언 좌표 갱신
-   def renew_min_coord(self, coord, movable):
+   def renew_min_coord(root, coord, movable):
        if not movable:
            return coord
        # x = coord[0] + ra.choice([-1, 0, 1])
@@ -115,7 +115,7 @@ class Minion:
 
 
    # 미니언 아이템 드롭
-   def drop_item(self):
+   def drop_item(root):
        drop_chance = ra.random()
        if drop_chance < 0.7:
            item_type = ra.choice(list(Item.ITEM_TYPES.keys()))
@@ -125,11 +125,11 @@ class Minion:
 
 
 # 미니언 체력 감소
-   def reduce_hp(self):
-       self.hp -= 1
-       if self.hp < 0:
-           self.hp = 0
-       return self.hp
+   def reduce_hp(root):
+       root.hp -= 1
+       if root.hp < 0:
+           root.hp = 0
+       return root.hp
 
 
 class Monster:

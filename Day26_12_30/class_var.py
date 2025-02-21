@@ -2,25 +2,25 @@ class Student:
     score = 90
     stestList = []
 
-    def __init__(self, name, age, e, m):
-        self.name = name
-        self.age = age
-        self.e = e
-        self.m = m
-        self.ap()
+    def __init__(root, name, age, e, m):
+        root.name = name
+        root.age = age
+        root.e = e
+        root.m = m
+        root.ap()
 
-    def ap(self):
-        first = self.name[0]
-        if first == "김" and self.e >= Student.score:  # 영어점수 90 이상
-            Student.stestList.append(self)
+    def ap(root):
+        first = root.name[0]
+        if first == "김" and root.e >= Student.score:  # 영어점수 90 이상
+            Student.stestList.append(root)
         else:  # 3번쨰 객체 이후 생성되는 객체는 강제로 소멸
-            self.__del__()
+            root.__del__()
 
-    def __str__(self):
+    def __str__(root):
         # 객체 정보를 문자열로 반환
-        return f"Student(name={self.name}, age={self.age}, e={self.e}, m={self.m})"
+        return f"Student(name={root.name}, age={root.age}, e={root.e}, m={root.m})"
     
-    def __del__(self):
+    def __del__(root):
         print("소멸")
         pass
 

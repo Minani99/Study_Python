@@ -16,50 +16,50 @@ class Box:
         "drop_probability": 0,
     }
 
-    def __init__(self, hp=1, unbreakable=False):
-        self.__hp = hp
-        self.__max_hp = hp
-        self.__unbreakable = unbreakable
-        self._dropped = False  # 아이템 드롭 여부 플래그
+    def __init__(root, hp=1, unbreakable=False):
+        root.__hp = hp
+        root.__max_hp = hp
+        root.__unbreakable = unbreakable
+        root._dropped = False  # 아이템 드롭 여부 플래그
 
     @property
-    def hp(self):
-        return self.__hp
+    def hp(root):
+        return root.__hp
 
     @property
-    def max_hp(self):
-        return self.__max_hp
+    def max_hp(root):
+        return root.__max_hp
 
     @property
-    def unbreakable(self):
-        return self.__unbreakable
+    def unbreakable(root):
+        return root.__unbreakable
 
-    def damaged_by_bomb(self, damage=1):
-        if self.unbreakable:
+    def damaged_by_bomb(root, damage=1):
+        if root.unbreakable:
             return False
 
-        if self.__hp <= 0:  # 이미 파괴된 박스는 카운트하지 않음
+        if root.__hp <= 0:  # 이미 파괴된 박스는 카운트하지 않음
             return False
 
-        self.__hp -= damage
-        if self.__hp <= 0:
+        root.__hp -= damage
+        if root.__hp <= 0:
             Box.stats["total_destroyed_boxes"] += 1
             return True
         return False
 
-    def drop_item(self):
-        if self.__hp > 0 or self._dropped:  # HP가 0 이상이거나 이미 드롭된 경우
+    def drop_item(root):
+        if root.__hp > 0 or root._dropped:  # HP가 0 이상이거나 이미 드롭된 경우
             return None
 
         drop_chance = rm.random()
         if drop_chance < 0.7:  # 70% 확률로 아이템 드롭
-            self._dropped = True
+            root._dropped = True
             item_type = rm.choice(list(Item.ITEM_TYPES.keys()))
             Box.stats["total_dropped_items"] += 1
             Box.stats["item_counts"][item_type] = Box.stats["item_counts"].get(item_type, 0) + 1
             return item_type
 
-        self._dropped = True
+        root._dropped = True
         return None
 
     @classmethod

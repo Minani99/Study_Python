@@ -2,18 +2,18 @@ import math
 
 
 class Circle:
-    def __init__(self,radius):
-        self.__radius = radius
+    def __init__(root,radius):
+        root.__radius = radius
 
     @property
-    def radius(self):
-        return self.__radius
+    def radius(root):
+        return root.__radius
 
     @radius.setter
-    def radius(self, value):
+    def radius(root, value):
         if value <= 0:
             raise TypeError("길이는 양의 숫자")
-        self.__radius = value
+        root.__radius = value
 
 
 print("고")

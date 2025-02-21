@@ -1,10 +1,10 @@
 class Stu:
-    def __init__(self):
+    def __init__(root):
         pass
 
 
 class Person:
-    def __init__(self):
+    def __init__(root):
         pass
 
 

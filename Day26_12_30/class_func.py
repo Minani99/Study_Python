@@ -10,26 +10,26 @@ class Student:
             print(str(student))
         print("---------------")
 
-    def __init__(self, name, k, m, e, s):
-        self.name = name
-        self.k = k
-        self.m = m
-        self.e = e
-        self.s = s
+    def __init__(root, name, k, m, e, s):
+        root.name = name
+        root.k = k
+        root.m = m
+        root.e = e
+        root.s = s
         Student.count += 1
-        Student.students.append(self)
+        Student.students.append(root)
 
-    def get_sum(self):
-        return self.k + self.m + self.e + self.s
+    def get_sum(root):
+        return root.k + root.m + root.e + root.s
 
-    def get_ave(self):
-        return self.get_sum() / 4
+    def get_ave(root):
+        return root.get_sum() / 4
 
-    def __str__(self):
+    def __str__(root):
         return "{}\t{}\t{}".format(
-            self.name,
-            self.get_sum(),
-            self.get_ave()
+            root.name,
+            root.get_sum(),
+            root.get_ave()
         )
 
 

@@ -1,14 +1,14 @@
 class Queue:
-    def __init__(self):
-        self.list = []
+    def __init__():
+        .list = []
 
-    def enqueue(self, item):
-        self.list.append(item)
+    def enqueue(root, item):
+        root.list.append(item)
 
-    def dequeue(self):
-        return self.list.pop(0)
-        # self.list.sort(reverse=True)
-        # return self.list.pop()
+    def dequeue(root):
+        return root.list.pop(0)
+        # root.list.sort(reverse=True)
+        # return root.list.pop()
 
 
 q = Queue()
